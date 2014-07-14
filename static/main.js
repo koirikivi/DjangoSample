@@ -12,11 +12,16 @@ $(document).ready(function(){
                 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
             },
             dataType: 'html',
-            success: clickSuccess
+            success: clickSuccess,
+            error: clickError,
         });
     });
 });
 
 function clickSuccess(data, textStatus, jqXHR){
-    $("#status").html(data)
+    window.location.href = data;
+}
+
+function clickError(data, textStatus, jqXHR){
+    $("#status").html(data.responseText);
 }

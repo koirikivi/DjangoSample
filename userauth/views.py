@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
-from django.http.response import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 
@@ -11,6 +11,12 @@ def login_page(request):
 
 @csrf_exempt
 def login_ajax(request):
+    """A simple view that logs an user in.
+
+    Returns a response with code 200 and the body set to the redirect url on
+    success, or a response with code 4XX and the body set to error message on
+    error.
+    """
     if request.method == "POST":
         username = request.POST.get('name')
         password = request.POST.get('pwd')
@@ -18,11 +24,13 @@ def login_ajax(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return redirect("/blog") #...
+                return HttpResponse("/blog/")
             else:
-                return HttpResponse("something weird here")
+                return HttpResponseForbidden("something weird here")
         else:
-            return HttpResponse("wrong pass or username")
+            return HttpResponseForbidden("wrong pass or username")
+    else:
+        return HttpResponseBadRequest("Request type must be POST")
 
 def blog(request):
     return render(request, "blog.html")
