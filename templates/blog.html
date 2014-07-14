@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login</title>
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="../static/main.js"></script>
+    </head>
+    <body>
+        {% if user.is_authenticated %}
+        Welcome {{ user.get_full_name }}
+        {% else %}
+        shit...
+        {% endif %}
+    </body>
+</html>
