@@ -1,0 +1,6 @@
+BeautifulSoup==3.2.1
+Django==1.6.4
+Twisted==13.2.0
+lxml==3.3.5
+mechanize==0.2.5
+zope.interface==4.1.1
